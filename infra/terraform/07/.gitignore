@@ -1,0 +1,19 @@
+# .gitignore - Root project gitignore
+*.log
+*.tmp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets
+*.pem
+*.key
+.env
+.env.local

@@ -1,0 +1,6 @@
+# .gitignore - GitHub Actions project gitignore
+*.log
+.trivy-cache/
+.sarif/
+phpstan-report/
+coverage/

@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,6 +29,7 @@ jobs:
           docker build -t aw-sample:${IMAGE_TAG} ./app
           docker tag aw-sample:${IMAGE_TAG} ${{ secrets.ECR_URI }}:${IMAGE_TAG}
           docker push ${{ secrets.ECR_URI }}:${IMAGE_TAG}
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -55,26 +55,3 @@ jobs:
 
           kubectl rollout status deployment/aw-sample --timeout=300s
           kubectl get pods -o wide
-
-  # SIMPLE WAY TESt
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-east-1
-  #
-  #     - name: Update kubeconfig
-  #       run: aws eks update-kubeconfig --region us-east-1 --name aw-bootcamp-cluster
-  #
-  #     - name: Deploy manifests
-  #       run: |
-  #         kubectl apply -f k8s/manifests/ --validate=false
-  #         kubectl rollout status deployment/aw-sample --timeout=120s
-  #           kubectl get pods -o wide
